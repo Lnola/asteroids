@@ -89,6 +89,15 @@ class Game {
       new Asteroid({ canvas: this.canvas, context: this.context });
     this.asteroids = Array.from({ length: ASTEROIDS_PER_WAVE }, createAsteroid);
   }
+
+  private get bounds() {
+    return {
+      maxX: this.canvas.width,
+      minX: 0,
+      maxY: this.canvas.height,
+      minY: 0,
+    };
+  }
 }
 
 const options = defaultOptions;
