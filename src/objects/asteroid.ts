@@ -19,16 +19,16 @@ class Asteroid {
     this.canvas = canvas;
     this.position = {
       x: getRandomExcluding(
-        -100,
+        -ASTEROID_SIZE,
         0,
         this.canvas.width,
-        this.canvas.width + 100,
+        this.canvas.width + ASTEROID_SIZE,
       ),
       y: getRandomExcluding(
-        -100,
+        -ASTEROID_SIZE,
         0,
         this.canvas.height,
-        this.canvas.height + 100,
+        this.canvas.height + ASTEROID_SIZE,
       ),
     };
 
