@@ -1,5 +1,5 @@
 import Player from '@/player';
-import Movement from '@/movement';
+import Movement, { RotationMovement } from '@/movement';
 
 export type Vector = { x: number; y: number };
 
@@ -22,7 +22,7 @@ class Game {
       context: this.context,
     });
 
-    this.movement = new Movement(this.player);
+    this.movement = new RotationMovement(this.player);
     this.movement.listenForInputs();
   }
 
