@@ -1,4 +1,4 @@
-import Player from '@/player';
+import Player from '@/objects/player';
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 
 const SPEED = 3;
