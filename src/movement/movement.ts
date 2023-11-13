@@ -9,7 +9,7 @@ abstract class Movement {
   speed = SPEED;
   rotationSpeed = ROTATION_SPEED;
   friction = FRICTION;
-  isPressed = { w: false, s: false, a: false, d: false };
+  isPressed = { forward: false, backward: false, left: false, right: false };
 
   constructor(player: Player) {
     this.player = player;
@@ -29,10 +29,10 @@ abstract class Movement {
 
   private handleKeyEvent = (event: KeyboardEvent, isPressed: boolean) => {
     const KeySetters = {
-      KeyW: (value: boolean) => (this.isPressed.w = value),
-      KeyS: (value: boolean) => (this.isPressed.s = value),
-      KeyA: (value: boolean) => (this.isPressed.a = value),
-      KeyD: (value: boolean) => (this.isPressed.d = value),
+      KeyW: (value: boolean) => (this.isPressed.forward = value),
+      KeyS: (value: boolean) => (this.isPressed.backward = value),
+      KeyA: (value: boolean) => (this.isPressed.left = value),
+      KeyD: (value: boolean) => (this.isPressed.right = value),
     };
     type KeyCode = keyof typeof KeySetters;
 

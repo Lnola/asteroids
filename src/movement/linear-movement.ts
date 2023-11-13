@@ -7,16 +7,16 @@ class LinearMovement extends Movement {
   }
 
   adjustVelocity() {
-    if (this.isPressed.w) {
+    if (this.isPressed.forward) {
       this.player.velocity.y = -this.speed;
       this.player.velocity.x = 0;
-    } else if (this.isPressed.s) {
+    } else if (this.isPressed.backward) {
       this.player.velocity.y = this.speed;
       this.player.velocity.x = 0;
-    } else if (this.isPressed.a) {
+    } else if (this.isPressed.left) {
       this.player.velocity.x = -this.speed;
       this.player.velocity.y = 0;
-    } else if (this.isPressed.d) {
+    } else if (this.isPressed.right) {
       this.player.velocity.x = this.speed;
       this.player.velocity.y = 0;
     } else {
