@@ -72,6 +72,8 @@ class Game {
       return asteroid.shouldRemove();
     });
 
+    if (!this.asteroids.length) this.createAsteroids();
+
     this.movement.adjustVelocity();
     this.movement.adjustRotation();
   }
