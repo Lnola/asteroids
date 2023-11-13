@@ -33,7 +33,7 @@ class Game {
   player: Player;
   movement: Movement;
 
-  constructor(options: Options = defaultOptions) {
+  constructor(options: Options) {
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
 
@@ -66,12 +66,13 @@ class Game {
     window.requestAnimationFrame(() => self.animate(this));
     this.render();
 
-    this.player.move();
+    this.player.move(this.canvas);
 
     this.movement.adjustVelocity();
     this.movement.adjustRotation();
   }
 }
 
-const game = new Game();
+const options = defaultOptions;
+const game = new Game(options);
 game.start();
