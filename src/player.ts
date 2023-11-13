@@ -1,4 +1,4 @@
-import { Vector } from './main';
+import { Vector } from '@/main';
 
 const PLAYER_SIZE = 30;
 
