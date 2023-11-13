@@ -63,12 +63,13 @@ class Game {
   }
 
   animate(self: typeof this) {
-    window.requestAnimationFrame(() => self.animate(this));
+    const animationId = window.requestAnimationFrame(() => self.animate(this));
     this.render();
 
     this.player.move(this.canvas);
     this.asteroids = this.asteroids.filter((asteroid) => {
       asteroid.move();
+      if (asteroid.detectPlayerCollision(this.player)) this.stop(animationId);
       return asteroid.shouldRemove();
     });
 
@@ -103,6 +104,10 @@ class Game {
       maxY: this.canvas.height,
       minY: 0,
     };
+  }
+
+  stop(animationId: number) {
+    window.cancelAnimationFrame(animationId);
   }
 }
 
