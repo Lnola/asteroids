@@ -33,6 +33,10 @@ abstract class Movement {
       KeyS: (value: boolean) => (this.isPressed.backward = value),
       KeyA: (value: boolean) => (this.isPressed.left = value),
       KeyD: (value: boolean) => (this.isPressed.right = value),
+      ArrowUp: (value: boolean) => (this.isPressed.forward = value),
+      ArrowDown: (value: boolean) => (this.isPressed.backward = value),
+      ArrowLeft: (value: boolean) => (this.isPressed.left = value),
+      ArrowRight: (value: boolean) => (this.isPressed.right = value),
     };
     type KeyCode = keyof typeof KeySetters;
 
