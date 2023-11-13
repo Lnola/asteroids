@@ -1,5 +1,8 @@
 import { Vector } from '@/main';
-import { getRandomVectorOnRectangleSide } from '@/helpers/asteroid';
+import {
+  getRandomVectorOnRectangleSide,
+  getVelocityToRandomVector,
+} from '@/helpers/asteroid';
 
 export type Bounds = {
   maxX: number;
@@ -23,7 +26,7 @@ class Asteroid {
     this.context = context;
     this.bounds = bounds;
     this.position = getRandomVectorOnRectangleSide(this.bounds);
-    this.velocity = { x: 0, y: 0 };
+    this.velocity = getVelocityToRandomVector(this.position, this.bounds, 60);
     this.rotation = 0;
   }
 
