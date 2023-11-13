@@ -1,7 +1,13 @@
 import Player from '@/player';
-import Movement, { RotationMovement } from '@/movement';
+import Movement, { LinearMovement, RotationMovement } from '@/movement';
 
 export type Vector = { x: number; y: number };
+
+type MovementType = 'linear' | 'rotation';
+
+type Constructor = {
+  movementType?: MovementType;
+};
 
 class Game {
   canvas: HTMLCanvasElement;
@@ -9,7 +15,7 @@ class Game {
   player: Player;
   movement: Movement;
 
-  constructor() {
+  constructor({ movementType = 'rotation' }: Constructor) {
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
 
@@ -22,7 +28,10 @@ class Game {
       context: this.context,
     });
 
-    this.movement = new RotationMovement(this.player);
+    this.movement =
+      movementType === 'linear'
+        ? new LinearMovement(this.player)
+        : new RotationMovement(this.player);
     this.movement.listenForInputs();
   }
 
@@ -46,5 +55,5 @@ class Game {
   }
 }
 
-const game = new Game();
+const game = new Game({});
 game.start();
