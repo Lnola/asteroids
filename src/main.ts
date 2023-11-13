@@ -5,6 +5,7 @@ import Asteroid from '@/objects/asteroid';
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;
 const FRICTION = 0.97;
+const ASTEROIDS_PER_WAVE = 5;
 
 export type Vector = { x: number; y: number };
 
@@ -84,12 +85,9 @@ class Game {
   }
 
   private createAsteroids() {
-    this.asteroids = [
-      new Asteroid({
-        canvas: this.canvas,
-        context: this.context,
-      }),
-    ];
+    const createAsteroid = () =>
+      new Asteroid({ canvas: this.canvas, context: this.context });
+    this.asteroids = Array.from({ length: ASTEROIDS_PER_WAVE }, createAsteroid);
   }
 }
 
