@@ -6,16 +6,14 @@ export function getRandomVectorOnRectangleSide({
   minX,
   maxY,
   minY,
-}: Bounds) {
+}: Bounds): Vector {
   const sides = [
     () => ({ x: Math.random() * (maxX - minX) + minX, y: minY }), // top
     () => ({ x: Math.random() * (maxX - minX) + minX, y: maxY }), // bottom
     () => ({ x: minX, y: Math.random() * (maxY - minY) + minY }), // left
     () => ({ x: maxX, y: Math.random() * (maxY - minY) + minY }), // right
   ];
-
-  const randomSideFunc = sides[Math.floor(Math.random() * sides.length)];
-  return randomSideFunc();
+  return sides[Math.floor(Math.random() * sides.length)]();
 }
 
 const SPEED_REDUCTION_FACTOR = 0.005;
