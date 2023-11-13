@@ -37,13 +37,12 @@ class Asteroid {
   }
 
   shouldRemove() {
-    const isOutOfBounds = this.isOutOfBounds();
-    if (!isOutOfBounds && !this.wasInBounds) this.wasInBounds = true;
-    return !isOutOfBounds || !this.wasInBounds;
+    if (!this.isOutOfBounds && !this.wasInBounds) this.wasInBounds = true;
+    return !this.isOutOfBounds || !this.wasInBounds;
   }
 
-  private isOutOfBounds() {
-    return (
+  private get isOutOfBounds() {
+    return !(
       this.position.x > this.bounds.minX &&
       this.position.x < this.bounds.maxX &&
       this.position.y > this.bounds.minY &&
