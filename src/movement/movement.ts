@@ -1,18 +1,24 @@
 import Player from '@/player';
 
-const SPEED = 3;
-const ROTATION_SPEED = 0.05;
-const FRICTION = 0.97;
+export type Options = {
+  player: Player;
+  speed: number;
+  rotationSpeed: number;
+  friction: number;
+};
 
 abstract class Movement {
   player: Player;
-  speed = SPEED;
-  rotationSpeed = ROTATION_SPEED;
-  friction = FRICTION;
+  speed: number;
+  rotationSpeed: number;
+  friction: number;
   isPressed = { forward: false, backward: false, left: false, right: false };
 
-  constructor(player: Player) {
+  constructor({ player, speed, rotationSpeed, friction }: Options) {
     this.player = player;
+    this.speed = speed;
+    this.rotationSpeed = rotationSpeed;
+    this.friction = friction;
   }
 
   listenForInputs() {

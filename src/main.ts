@@ -1,12 +1,30 @@
 import Player from '@/player';
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 
+const SPEED = 3;
+const ROTATION_SPEED = 0.05;
+const FRICTION = 0.97;
+
 export type Vector = { x: number; y: number };
 
 type MovementType = 'linear' | 'rotation';
 
-type Constructor = {
-  movementType?: MovementType;
+type Options = {
+  movement: {
+    type: MovementType;
+    speed: number;
+    rotationSpeed: number;
+    friction: number;
+  };
+};
+
+const defaultOptions: Options = {
+  movement: {
+    type: 'rotation',
+    speed: SPEED,
+    rotationSpeed: ROTATION_SPEED,
+    friction: FRICTION,
+  },
 };
 
 class Game {
@@ -15,7 +33,7 @@ class Game {
   player: Player;
   movement: Movement;
 
-  constructor({ movementType = 'rotation' }: Constructor) {
+  constructor(options: Options = defaultOptions) {
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
 
@@ -29,9 +47,9 @@ class Game {
     });
 
     this.movement =
-      movementType === 'linear'
-        ? new LinearMovement(this.player)
-        : new RotationMovement(this.player);
+      options.movement.type === 'linear'
+        ? new LinearMovement({ player: this.player, ...options.movement })
+        : new RotationMovement({ player: this.player, ...options.movement });
     this.movement.listenForInputs();
   }
 
@@ -55,5 +73,5 @@ class Game {
   }
 }
 
-const game = new Game({});
+const game = new Game();
 game.start();

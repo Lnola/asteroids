@@ -1,9 +1,9 @@
 import Movement from '@/movement';
-import Player from '@/player';
+import { Options } from './movement';
 
 class RotationMovement extends Movement {
-  constructor(player: Player) {
-    super(player);
+  constructor(options: Options) {
+    super(options);
   }
 
   adjustVelocity() {
