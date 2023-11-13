@@ -3,6 +3,7 @@ import {
   getRandomVectorOnRectangleSide,
   getVelocityToRandomVector,
 } from '@/helpers/asteroid';
+import Player from './player';
 
 export type Bounds = {
   maxX: number;
@@ -71,6 +72,15 @@ class Asteroid {
   }
 
   private drawTriangle() {}
+
+  detectPlayerCollision(player: Player): boolean {
+    const halfSizeSum = this.size / 2 + player.size / 2;
+    const xOverlap =
+      Math.abs(this.position.x - player.position.x) <= halfSizeSum;
+    const yOverlap =
+      Math.abs(this.position.y - player.position.y) <= halfSizeSum;
+    return xOverlap && yOverlap;
+  }
 }
 
 export default Asteroid;
