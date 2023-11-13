@@ -1,5 +1,6 @@
-import Player from '@/objects/player';
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
+import Player from '@/objects/player';
+import Asteroid from '@/objects/asteroid';
 
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;
@@ -32,6 +33,7 @@ class Game {
   context: CanvasRenderingContext2D;
   player: Player;
   movement: Movement;
+  asteroids: Asteroid[];
 
   constructor(options: Options) {
     this.canvas = document.querySelector('canvas')!;
@@ -45,6 +47,13 @@ class Game {
       velocity: { x: 0, y: 0 },
       context: this.context,
     });
+
+    this.asteroids = [
+      new Asteroid({
+        canvas: this.canvas,
+        context: this.context,
+      }),
+    ];
 
     this.movement =
       options.movement.type === 'linear'
@@ -67,6 +76,10 @@ class Game {
     this.render();
 
     this.player.move(this.canvas);
+    this.asteroids = this.asteroids.filter((asteroid) => {
+      asteroid.move();
+      return asteroid.shouldRemove();
+    });
 
     this.movement.adjustVelocity();
     this.movement.adjustRotation();
