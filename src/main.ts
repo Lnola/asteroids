@@ -31,9 +31,9 @@ const defaultOptions: Options = {
 class Game {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
-  player: Player;
+  player!: Player;
   movement: Movement;
-  asteroids: Asteroid[];
+  asteroids!: Asteroid[];
 
   constructor(options: Options) {
     this.canvas = document.querySelector('canvas')!;
@@ -42,18 +42,8 @@ class Game {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
-    this.player = new Player({
-      position: { x: this.canvas.width / 2, y: this.canvas.height / 2 },
-      velocity: { x: 0, y: 0 },
-      context: this.context,
-    });
-
-    this.asteroids = [
-      new Asteroid({
-        canvas: this.canvas,
-        context: this.context,
-      }),
-    ];
+    this.createPlayer();
+    this.createAsteroids();
 
     this.movement =
       options.movement.type === 'linear'
@@ -83,6 +73,23 @@ class Game {
 
     this.movement.adjustVelocity();
     this.movement.adjustRotation();
+  }
+
+  private createPlayer() {
+    this.player = new Player({
+      position: { x: this.canvas.width / 2, y: this.canvas.height / 2 },
+      velocity: { x: 0, y: 0 },
+      context: this.context,
+    });
+  }
+
+  private createAsteroids() {
+    this.asteroids = [
+      new Asteroid({
+        canvas: this.canvas,
+        context: this.context,
+      }),
+    ];
   }
 }
 
