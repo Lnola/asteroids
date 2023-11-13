@@ -1,42 +1,29 @@
 import { Vector } from '@/main';
-import { getRandomExcluding } from '@/helpers/get-random-excluding';
-import { getVectorToRectangle } from '@/helpers/get-vector-to-rectangle';
+import { getRandomVectorOnRectangleSide } from '@/helpers/asteroid';
+
+export type Bounds = {
+  maxX: number;
+  minX: number;
+  maxY: number;
+  minY: number;
+};
 
 const ASTEROID_SIZE = 50;
 
 class Asteroid {
-  // TODO: resolve this canvas
-  canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
   position: Vector;
   velocity: Vector;
   rotation: number;
   size = ASTEROID_SIZE;
+  bounds: Bounds;
   wasInBounds = false;
 
-  constructor({ context, canvas }: Pick<Asteroid, 'context' | 'canvas'>) {
+  constructor({ context, bounds }: Pick<Asteroid, 'context' | 'bounds'>) {
     this.context = context;
-    this.canvas = canvas;
-    this.position = {
-      x: getRandomExcluding(
-        -ASTEROID_SIZE,
-        0,
-        this.canvas.width,
-        this.canvas.width + ASTEROID_SIZE,
-      ),
-      y: getRandomExcluding(
-        -ASTEROID_SIZE,
-        0,
-        this.canvas.height,
-        this.canvas.height + ASTEROID_SIZE,
-      ),
-    };
-
-    this.velocity = getVectorToRectangle(
-      this.position,
-      this.canvas.width,
-      this.canvas.height,
-    );
+    this.bounds = bounds;
+    this.position = getRandomVectorOnRectangleSide(this.bounds);
+    this.velocity = { x: 0, y: 0 };
     this.rotation = 0;
   }
 
@@ -47,17 +34,17 @@ class Asteroid {
   }
 
   shouldRemove() {
-    const isOutOfBounds = this.isOutOfBounds(this.canvas);
+    const isOutOfBounds = this.isOutOfBounds();
     if (!isOutOfBounds && !this.wasInBounds) this.wasInBounds = true;
     return !isOutOfBounds || !this.wasInBounds;
   }
 
-  private isOutOfBounds(canvas: HTMLCanvasElement) {
+  private isOutOfBounds() {
     return (
-      this.position.x >= canvas.width ||
-      this.position.x < 0 ||
-      this.position.y >= canvas.height ||
-      this.position.y < 0
+      this.position.x > this.bounds.minX &&
+      this.position.x < this.bounds.maxX &&
+      this.position.y > this.bounds.minY &&
+      this.position.y < this.bounds.maxY
     );
   }
 

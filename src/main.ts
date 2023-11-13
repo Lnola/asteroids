@@ -86,7 +86,11 @@ class Game {
 
   private createAsteroids() {
     const createAsteroid = () =>
-      new Asteroid({ canvas: this.canvas, context: this.context });
+      new Asteroid({
+        context: this.context,
+        bounds: this.bounds,
+      });
+
     this.asteroids = Array.from({ length: ASTEROIDS_PER_WAVE }, createAsteroid);
   }
 
