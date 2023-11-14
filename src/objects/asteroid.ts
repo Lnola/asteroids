@@ -1,6 +1,5 @@
 import VectorHelpers from '@/shared/helpers/vector';
 import GameObject, { IGameObject } from './game-object';
-import Player from './player';
 
 export type Bounds = {
   maxX: number;
@@ -40,12 +39,12 @@ class Asteroid extends GameObject implements IAsteroid {
     this.wasInBounds = false;
   }
 
-  detectPlayerCollision(player: Player): boolean {
-    const halfSizeSum = this.size / 2 + player.size / 2;
+  detectCollision(gameObject: GameObject): boolean {
+    const halfSizeSum = this.size / 2 + gameObject.size / 2;
     const xOverlap =
-      Math.abs(this.position.x - player.position.x) <= halfSizeSum;
+      Math.abs(this.position.x - gameObject.position.x) <= halfSizeSum;
     const yOverlap =
-      Math.abs(this.position.y - player.position.y) <= halfSizeSum;
+      Math.abs(this.position.y - gameObject.position.y) <= halfSizeSum;
     return xOverlap && yOverlap;
   }
 

@@ -82,7 +82,7 @@ class Game {
     this.player.move(this.canvas);
     this.asteroids = this.asteroids.filter((asteroid) => {
       asteroid.move();
-      if (asteroid.detectPlayerCollision(this.player)) this.stop(animationId);
+      if (asteroid.detectCollision(this.player)) this.stop(animationId);
       return asteroid.shouldRemove();
     });
 
