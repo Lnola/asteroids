@@ -2,11 +2,14 @@ import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import Player from '@/objects/player';
 import Asteroid from '@/objects/asteroid';
 import Stopwatch from '@/helpers/stopwatch';
+import Store from '@/helpers/store';
 
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;
 const FRICTION = 0.97;
 const ASTEROIDS_PER_WAVE = 5;
+
+const BEST_TIME_KEY = 'BEST_TIME';
 
 export type Vector = { x: number; y: number };
 
@@ -37,6 +40,7 @@ class Game {
   movement: Movement;
   asteroids!: Asteroid[];
   stopwatch!: Stopwatch;
+  bestTimeStore!: Store;
 
   constructor(options: Options) {
     this.canvas = document.querySelector('canvas')!;
@@ -48,6 +52,7 @@ class Game {
     this.createStopwatch();
     this.createPlayer();
     this.createAsteroids();
+    this.createStore();
 
     this.movement =
       options.movement.type === 'linear'
@@ -105,6 +110,10 @@ class Game {
     this.stopwatch = new Stopwatch();
   }
 
+  private createStore() {
+    this.bestTimeStore = new Store(BEST_TIME_KEY);
+  }
+
   private get bounds() {
     return {
       maxX: this.canvas.width,
@@ -114,9 +123,15 @@ class Game {
     };
   }
 
+  private updateBestTime() {
+    if (this.stopwatch.elapsedTime < this.bestTimeStore.value) return;
+    this.bestTimeStore.setValue(this.stopwatch.elapsedTime);
+  }
+
   stop(animationId: number) {
     window.cancelAnimationFrame(animationId);
     this.stopwatch.stop();
+    this.updateBestTime();
   }
 }
 
