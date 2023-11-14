@@ -1,6 +1,7 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import { Player, Asteroid } from '@/objects';
 import { DomHelpers, Stopwatch, Store, Time } from '@/shared/helpers';
+import { defaultGameOptions } from '@/shared/models/game';
 import { MovementType } from '@/shared/models/movement';
 import { BEST_TIME_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
 
@@ -26,7 +27,7 @@ class Game {
   bestTimeStore!: Store;
   asteroidsPerWave: number;
 
-  constructor(options: GameOptions) {
+  constructor(options: GameOptions = defaultGameOptions) {
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
 
     this.canvas = document.querySelector('canvas')!;
