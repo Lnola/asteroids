@@ -2,8 +2,8 @@ import Time from './time';
 
 class Stopwatch {
   startTime!: number;
-  interval!: NodeJS.Timeout;
-  elapsedTime: Time;
+  elapsedTime!: Time;
+  private interval!: NodeJS.Timeout;
 
   constructor() {
     this.elapsedTime = new Time();
