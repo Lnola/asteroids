@@ -1,8 +1,6 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import { Player, Asteroid } from '@/objects';
-import Stopwatch from '@/shared/helpers/stopwatch';
-import Store from '@/shared/helpers/store';
-import Time from '@/shared/helpers/time';
+import { Stopwatch, Store, Time } from '@/shared/helpers';
 
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;

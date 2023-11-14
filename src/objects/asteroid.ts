@@ -1,5 +1,5 @@
-import VectorHelpers from '@/shared/helpers/vector';
 import GameObject, { IGameObject } from './game-object';
+import { VectorHelpers } from '@/shared/helpers';
 
 export type Bounds = {
   maxX: number;
