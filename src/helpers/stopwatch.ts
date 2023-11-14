@@ -1,18 +1,13 @@
-type Time = {
-  minutes: number;
-  seconds: number;
-};
+import Time from './time';
 
 class Stopwatch {
   startTime!: number;
   interval!: NodeJS.Timeout;
+  elapsedTime: Time;
 
   constructor() {
+    this.elapsedTime = new Time();
     this.start();
-  }
-
-  private get now() {
-    return new Date().getTime();
   }
 
   start() {
@@ -21,20 +16,18 @@ class Stopwatch {
     this.interval = setInterval(this.update.bind(this), 10);
   }
 
+  private get now() {
+    return new Date().getTime();
+  }
+
   private update() {
-    const elapsedTime = this.now - this.startTime;
-    const minutes = Math.floor(elapsedTime / 1000 / 60) % 60;
-    const seconds = elapsedTime / 1000;
-    const displayTime = this.getDisplayTime({ minutes, seconds });
-    document.getElementById('stopwatch')!.innerHTML = displayTime;
+    const elapsedMiliseconds = this.now - this.startTime;
+    this.elapsedTime.setTime(elapsedMiliseconds);
+    document.getElementById('stopwatch')!.innerHTML = this.displayTime;
   }
 
-  private pad(value: number) {
-    return `${value < 10 ? '0' : ''}${value}`;
-  }
-
-  private getDisplayTime(time: Time) {
-    return `Time: ${this.pad(time.minutes)}:${this.pad(time.seconds)}`;
+  private get displayTime() {
+    return `Time: ${this.elapsedTime.toString()}`;
   }
 }
 
