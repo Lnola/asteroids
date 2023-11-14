@@ -10,6 +10,7 @@ import {
 import { defaultGameOptions } from '@/shared/models/game';
 import { MovementType } from '@/shared/models/movement';
 import { RESTART_BUTTON_ID } from '@/shared/models/dom';
+import { Bounds } from '@/shared/models/bounds';
 
 type GameMovementOptions = {
   type: MovementType;
@@ -30,6 +31,7 @@ export type GameOptions = {
 class Game {
   private canvas: HTMLCanvasElement;
   private context!: CanvasRenderingContext2D;
+  private bounds!: Bounds;
   private options!: GameOptions;
   private player!: Player;
   private movement!: Movement;
@@ -44,6 +46,13 @@ class Game {
     this.context = this.canvas.getContext('2d')!;
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+
+    this.bounds = {
+      maxX: this.canvas.width,
+      minX: 0,
+      maxY: this.canvas.height,
+      minY: 0,
+    };
 
     this.options = options;
 
@@ -70,13 +79,6 @@ class Game {
   start() {
     this.animate(this);
     this.stopwatch.start();
-  }
-
-  stop(animationId: number) {
-    window.cancelAnimationFrame(animationId);
-    this.stopwatch.stop();
-    BestTimeHelpers.updateBestTime(this.bestTimeStore, this.stopwatch);
-    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
   }
 
   private render = () => {
@@ -106,13 +108,11 @@ class Game {
     this.movement.adjustRotation();
   }
 
-  private get bounds() {
-    return {
-      maxX: this.canvas.width,
-      minX: 0,
-      maxY: this.canvas.height,
-      minY: 0,
-    };
+  stop(animationId: number) {
+    window.cancelAnimationFrame(animationId);
+    this.stopwatch.stop();
+    BestTimeHelpers.updateBestTime(this.bestTimeStore, this.stopwatch);
+    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
   }
 }
 
