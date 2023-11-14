@@ -1,7 +1,7 @@
-import Movement, { Options } from './movement';
+import Movement, { MovementOptions } from './movement';
 
 class LinearMovement extends Movement {
-  constructor(options: Options) {
+  constructor(options: MovementOptions) {
     super(options);
   }
 

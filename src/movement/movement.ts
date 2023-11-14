@@ -1,6 +1,6 @@
 import { Player } from '@/objects';
 
-export type Options = {
+export type MovementOptions = {
   player: Player;
   speed: number;
   rotationSpeed: number;
@@ -14,7 +14,7 @@ abstract class Movement {
   friction: number;
   isPressed = { forward: false, backward: false, left: false, right: false };
 
-  constructor({ player, speed, rotationSpeed, friction }: Options) {
+  constructor({ player, speed, rotationSpeed, friction }: MovementOptions) {
     this.player = player;
     this.speed = speed;
     this.rotationSpeed = rotationSpeed;
