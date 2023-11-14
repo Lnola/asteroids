@@ -1,6 +1,5 @@
 import { Bounds } from '@/shared/models/bounds';
-
-export type Vector = { x: number; y: number };
+import { Vector } from '@/shared/models/vector';
 
 class VectorHelpers {
   static getRandomVectorOnRectangleSide({
