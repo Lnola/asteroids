@@ -1,3 +1,4 @@
+export { default as BestTimeHelper } from './best-time';
 export { default as DomHelpers } from './dom';
 export { default as Stopwatch } from './stopwatch';
 export { default as Store } from './store';
