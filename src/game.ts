@@ -77,7 +77,7 @@ class Game {
   }
 
   start() {
-    this.animate(this);
+    this.animate();
     this.stopwatch.start();
   }
 
@@ -86,8 +86,8 @@ class Game {
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
-  private animate(self: typeof this) {
-    const animationId = window.requestAnimationFrame(() => self.animate(this));
+  private animate() {
+    const animationId = window.requestAnimationFrame(this.animate.bind(this));
     this.wipe();
 
     this.player.move(this.canvas);
