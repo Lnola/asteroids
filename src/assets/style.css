@@ -1,8 +1,6 @@
-* {
-  margin: 0;
-}
-
+body,
 canvas {
+  margin: 0;
   background-color: #000;
 }
 
