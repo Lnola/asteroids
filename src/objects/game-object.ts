@@ -31,7 +31,7 @@ abstract class GameObject implements IGameObject {
     this.rotation = 0;
   }
 
-  move() {
+  move(_?: unknown) {
     this.render();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
