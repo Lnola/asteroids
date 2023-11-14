@@ -1,4 +1,4 @@
-import Player from '@/objects/player';
+import { Player } from '@/objects';
 
 export type Options = {
   player: Player;

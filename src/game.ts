@@ -1,6 +1,5 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
-import Player from '@/objects/player';
-import Asteroid from '@/objects/asteroid';
+import { Player, Asteroid } from '@/objects';
 import Stopwatch from '@/helpers/stopwatch';
 import Store from '@/helpers/store';
 import Time from '@/helpers/time';
