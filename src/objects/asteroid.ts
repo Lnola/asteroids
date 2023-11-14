@@ -3,7 +3,7 @@ import Player from './player';
 import {
   getRandomVectorOnRectangleSide,
   getVelocityToRandomVector,
-} from '@/helpers/asteroid';
+} from '@/shared/helpers/asteroid';
 
 export type Bounds = {
   maxX: number;
