@@ -13,7 +13,7 @@ class Stopwatch {
   start() {
     if (this.interval) return;
     this.startTime = this.now;
-    this.interval = setInterval(this.update.bind(this), 10);
+    this.interval = setInterval(this.update.bind(this), 1);
   }
 
   stop() {
