@@ -94,7 +94,7 @@ class Game {
     this.asteroids = this.asteroids.filter((asteroid) => {
       asteroid.move();
       if (asteroid.detectCollision(this.player)) this.stop(frameId);
-      return asteroid.shouldRemove();
+      return asteroid.hasExitedBounds();
     });
 
     if (!this.asteroids.length)

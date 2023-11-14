@@ -42,7 +42,7 @@ class Asteroid extends GameObject implements IAsteroid {
     return xOverlap && yOverlap;
   }
 
-  shouldRemove() {
+  hasExitedBounds() {
     if (!this.isOutOfBounds && !this.wasInBounds) this.wasInBounds = true;
     return !this.isOutOfBounds || !this.wasInBounds;
   }
