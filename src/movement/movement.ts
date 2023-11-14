@@ -19,9 +19,14 @@ abstract class Movement {
     this.speed = speed;
     this.rotationSpeed = rotationSpeed;
     this.friction = friction;
+
+    this.listenForInputs();
   }
 
-  listenForInputs() {
+  adjustVelocity() {}
+  adjustRotation() {}
+
+  private listenForInputs() {
     window.addEventListener('keyup', (event) =>
       this.handleKeyEvent(event, false),
     );
@@ -29,9 +34,6 @@ abstract class Movement {
       this.handleKeyEvent(event, true),
     );
   }
-
-  adjustVelocity() {}
-  adjustRotation() {}
 
   private handleKeyEvent = (event: KeyboardEvent, isPressed: boolean) => {
     const KeySetters = {
