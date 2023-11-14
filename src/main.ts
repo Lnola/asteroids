@@ -3,6 +3,7 @@ import Player from '@/objects/player';
 import Asteroid from '@/objects/asteroid';
 import Stopwatch from '@/helpers/stopwatch';
 import Store from '@/helpers/store';
+import Time from '@/helpers/time';
 
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;
@@ -52,7 +53,9 @@ class Game {
     this.createStopwatch();
     this.createPlayer();
     this.createAsteroids();
-    this.createStore();
+    this.createBestTimeStore();
+
+    this.setBestTimeLabel();
 
     this.movement =
       options.movement.type === 'linear'
@@ -110,7 +113,7 @@ class Game {
     this.stopwatch = new Stopwatch();
   }
 
-  private createStore() {
+  private createBestTimeStore() {
     this.bestTimeStore = new Store(BEST_TIME_KEY);
   }
 
@@ -126,6 +129,15 @@ class Game {
   private updateBestTime() {
     if (this.stopwatch.elapsedTime < this.bestTimeStore.value) return;
     this.bestTimeStore.setValue(this.stopwatch.elapsedTime);
+  }
+
+  private setBestTimeLabel() {
+    const bestTime = new Time(
+      this.bestTimeStore.value?.minutes ?? 0,
+      this.bestTimeStore.value?.seconds ?? 0,
+    );
+    const displayBestTime = `Best time: ${bestTime.toString()}`;
+    document.getElementById('best')!.innerHTML = displayBestTime;
   }
 
   stop(animationId: number) {
