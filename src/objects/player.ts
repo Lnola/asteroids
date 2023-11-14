@@ -1,53 +1,28 @@
-import { Vector } from '@/game';
+import GameObject, { IGameObject } from './game-object';
 
 const PLAYER_SIZE = 30;
 
-class Player {
-  context: CanvasRenderingContext2D;
-  position: Vector;
-  velocity: Vector;
-  rotation: number;
-  size = PLAYER_SIZE;
+type IPlayer = IGameObject;
 
-  constructor({
-    context,
-    position,
-    velocity,
-  }: Pick<Player, 'context' | 'position' | 'velocity'>) {
-    this.context = context;
-    this.position = position;
-    this.velocity = velocity;
-    this.rotation = 0;
+type PlayerOptions = Pick<IGameObject, 'context' | 'position' | 'velocity'>;
+
+class Player extends GameObject implements IPlayer {
+  constructor({ context, position, velocity }: PlayerOptions) {
+    super({
+      context,
+      position,
+      velocity,
+      color: 'red',
+      size: PLAYER_SIZE,
+    });
   }
 
   move(canvas: HTMLCanvasElement) {
-    this.render();
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
+    super.move();
     this.wraparound(canvas);
   }
 
-  private render() {
-    this.context.save();
-
-    this.context.translate(this.position.x, this.position.y);
-    this.context.rotate(this.rotation);
-    this.context.translate(-this.position.x, -this.position.y);
-
-    this.drawRectangle();
-    this.drawTriangle();
-
-    this.context.restore();
-  }
-
-  private drawRectangle() {
-    this.context.fillStyle = 'red';
-    const positionX = this.position.x - this.size / 2;
-    const positionY = this.position.y - this.size / 2;
-    this.context.fillRect(positionX, positionY, this.size, this.size);
-  }
-
-  private drawTriangle() {
+  drawTriangle() {
     this.context.fillStyle = 'black';
     this.context.beginPath();
     const rectLeft = this.position.x - this.size / 2;
