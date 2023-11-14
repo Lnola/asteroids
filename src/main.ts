@@ -116,6 +116,7 @@ class Game {
 
   stop(animationId: number) {
     window.cancelAnimationFrame(animationId);
+    this.stopwatch.stop();
   }
 }
 

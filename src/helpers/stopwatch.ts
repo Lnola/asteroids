@@ -16,6 +16,10 @@ class Stopwatch {
     this.interval = setInterval(this.update.bind(this), 10);
   }
 
+  stop() {
+    clearInterval(this.interval);
+  }
+
   private get now() {
     return new Date().getTime();
   }
