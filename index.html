@@ -11,10 +11,24 @@
       canvas {
         background-color: #000;
       }
+      .statistics {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        font-size: 1.5rem;
+      }
     </style>
   </head>
   <body>
     <canvas></canvas>
+    <span class="statistics">
+      <span id="best">Best time: 00:00:00</span>
+      <span id="stopwatch">Time: 00:00:00</span>
+    </span>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
