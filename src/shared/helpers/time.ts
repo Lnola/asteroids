@@ -16,6 +16,14 @@ class Time {
     this.seconds = +((milliseconds / 1000) % 60).toFixed(3);
   }
 
+  isGreaterThan(other: Time) {
+    return this.totalSeconds > other.totalSeconds;
+  }
+
+  private get totalSeconds() {
+    return this.minutes * 60 + this.seconds;
+  }
+
   private pad(value: number) {
     return `${value < 10 ? '0' : ''}${value}`;
   }
