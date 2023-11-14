@@ -1,9 +1,9 @@
-import { Vector } from '@/game';
+import GameObject, { IGameObject } from './game-object';
+import Player from './player';
 import {
   getRandomVectorOnRectangleSide,
   getVelocityToRandomVector,
 } from '@/helpers/asteroid';
-import Player from './player';
 
 export type Bounds = {
   maxX: number;
@@ -14,50 +14,30 @@ export type Bounds = {
 
 const ASTEROID_SIZE = 50;
 
-class Asteroid {
-  context: CanvasRenderingContext2D;
-  position: Vector;
-  velocity: Vector;
-  rotation: number;
-  size = ASTEROID_SIZE;
+type IAsteroid = IGameObject & {
   bounds: Bounds;
-  wasInBounds = false;
+  wasInBounds: boolean;
+};
 
-  constructor({ context, bounds }: Pick<Asteroid, 'context' | 'bounds'>) {
-    this.context = context;
+type AsteroidOptions = Pick<IGameObject, 'context'> & { bounds: Bounds };
+
+class Asteroid extends GameObject implements IAsteroid {
+  bounds: Bounds;
+  wasInBounds: boolean;
+
+  constructor({ context, bounds }: AsteroidOptions) {
+    super({
+      context,
+      position: { x: 0, y: 0 },
+      velocity: { x: 0, y: 0 },
+      size: ASTEROID_SIZE,
+      color: 'grey',
+    });
+    this.position = getRandomVectorOnRectangleSide(bounds);
+    this.velocity = getVelocityToRandomVector(this.position, bounds, 60);
     this.bounds = bounds;
-    this.position = getRandomVectorOnRectangleSide(this.bounds);
-    this.velocity = getVelocityToRandomVector(this.position, this.bounds, 60);
-    this.rotation = 0;
+    this.wasInBounds = false;
   }
-
-  move() {
-    this.render();
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-  }
-
-  private render() {
-    this.context.save();
-
-    this.context.translate(this.position.x, this.position.y);
-    this.context.rotate(this.rotation);
-    this.context.translate(-this.position.x, -this.position.y);
-
-    this.drawRectangle();
-    this.drawTriangle();
-
-    this.context.restore();
-  }
-
-  private drawRectangle() {
-    this.context.fillStyle = 'grey';
-    const positionX = this.position.x - this.size / 2;
-    const positionY = this.position.y - this.size / 2;
-    this.context.fillRect(positionX, positionY, this.size, this.size);
-  }
-
-  private drawTriangle() {}
 
   detectPlayerCollision(player: Player): boolean {
     const halfSizeSum = this.size / 2 + player.size / 2;
