@@ -1,6 +1,7 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import { Player, Asteroid } from '@/objects';
 import { Stopwatch, Store, Time } from '@/shared/helpers';
+import { MovementType } from '@/shared/models/movement';
 
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;
@@ -8,8 +9,6 @@ const FRICTION = 0.97;
 const ASTEROIDS_PER_WAVE = 5;
 
 const BEST_TIME_KEY = 'BEST_TIME';
-
-type MovementType = 'linear' | 'rotation';
 
 type Options = {
   movement: {
