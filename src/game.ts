@@ -1,7 +1,7 @@
 import Movement from '@/movement';
 import { Player, Asteroid } from '@/objects';
 import {
-  BestTimeHelper,
+  BestTimeHelpers,
   DomHelpers,
   GameInitializationHelpers,
   Stopwatch,
@@ -64,7 +64,7 @@ class Game {
     this.stopwatch = new Stopwatch();
     this.bestTimeStore = new Store('BEST_TIME');
 
-    BestTimeHelper.setBestTimeLabel(this.bestTimeStore);
+    BestTimeHelpers.setBestTimeLabel(this.bestTimeStore);
   }
 
   start() {
@@ -75,7 +75,7 @@ class Game {
   stop(animationId: number) {
     window.cancelAnimationFrame(animationId);
     this.stopwatch.stop();
-    BestTimeHelper.updateBestTime(this.bestTimeStore, this.stopwatch);
+    BestTimeHelpers.updateBestTime(this.bestTimeStore, this.stopwatch);
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
   }
 

@@ -1,7 +1,7 @@
 import { DomHelpers, Stopwatch, Store, Time } from '.';
 import { BEST_TIME_ID } from '@/shared/models/dom';
 
-class BestTimeHelper {
+class BestTimeHelpers {
   static updateBestTime(bestTimeStore: Store, stopwatch: Stopwatch) {
     const bestTime = bestTimeStore.value;
     const currentTime = stopwatch.elapsedTime;
@@ -19,4 +19,4 @@ class BestTimeHelper {
   }
 }
 
-export default BestTimeHelper;
+export default BestTimeHelpers;

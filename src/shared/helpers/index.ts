@@ -1,4 +1,4 @@
-export { default as BestTimeHelper } from './best-time';
+export { default as BestTimeHelpers } from './best-time';
 export { default as DomHelpers } from './dom';
 export { default as GameInitializationHelpers } from './game';
 export { default as Stopwatch } from './stopwatch';
