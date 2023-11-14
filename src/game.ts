@@ -51,6 +51,40 @@ class Game {
     this.setBestTimeLabel();
   }
 
+  start() {
+    this.animate(this);
+    this.stopwatch.start();
+  }
+
+  stop(animationId: number) {
+    window.cancelAnimationFrame(animationId);
+    this.stopwatch.stop();
+    this.updateBestTime();
+    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
+  }
+
+  private render = () => {
+    this.context.fillStyle = 'black';
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  };
+
+  private animate(self: typeof this) {
+    const animationId = window.requestAnimationFrame(() => self.animate(this));
+    this.render();
+
+    this.player.move(this.canvas);
+    this.asteroids = this.asteroids.filter((asteroid) => {
+      asteroid.move();
+      if (asteroid.detectCollision(this.player)) this.stop(animationId);
+      return asteroid.shouldRemove();
+    });
+
+    if (!this.asteroids.length) this.createAsteroids();
+
+    this.movement.adjustVelocity();
+    this.movement.adjustRotation();
+  }
+
   private createPlayer() {
     const position = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     const velocity = { x: 0, y: 0 };
@@ -84,31 +118,11 @@ class Game {
     DomHelpers.setElementInnerHtml(BEST_TIME_ID, displayBestTime);
   }
 
-  private render = () => {
-    this.context.fillStyle = 'black';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  };
-
-  start() {
-    this.animate(this);
-    this.stopwatch.start();
-  }
-
-  private animate(self: typeof this) {
-    const animationId = window.requestAnimationFrame(() => self.animate(this));
-    this.render();
-
-    this.player.move(this.canvas);
-    this.asteroids = this.asteroids.filter((asteroid) => {
-      asteroid.move();
-      if (asteroid.detectCollision(this.player)) this.stop(animationId);
-      return asteroid.shouldRemove();
-    });
-
-    if (!this.asteroids.length) this.createAsteroids();
-
-    this.movement.adjustVelocity();
-    this.movement.adjustRotation();
+  private updateBestTime() {
+    const bestTime = this.bestTimeStore.value;
+    const currentTime = this.stopwatch.elapsedTime;
+    if (bestTime && currentTime.isGreaterThan(bestTime)) return;
+    this.bestTimeStore.setValue(this.stopwatch.elapsedTime);
   }
 
   private get bounds() {
@@ -118,20 +132,6 @@ class Game {
       maxY: this.canvas.height,
       minY: 0,
     };
-  }
-
-  private updateBestTime() {
-    const bestTime = this.bestTimeStore.value;
-    const currentTime = this.stopwatch.elapsedTime;
-    if (bestTime && currentTime.isGreaterThan(bestTime)) return;
-    this.bestTimeStore.setValue(this.stopwatch.elapsedTime);
-  }
-
-  stop(animationId: number) {
-    window.cancelAnimationFrame(animationId);
-    this.stopwatch.stop();
-    this.updateBestTime();
-    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
   }
 }
 
