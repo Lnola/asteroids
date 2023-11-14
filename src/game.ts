@@ -3,29 +3,16 @@ import { Player, Asteroid } from '@/objects';
 import { Stopwatch, Store, Time } from '@/shared/helpers';
 import { MovementType } from '@/shared/models/movement';
 
-const SPEED = 3;
-const ROTATION_SPEED = 0.05;
-const FRICTION = 0.97;
-const ASTEROIDS_PER_WAVE = 5;
-
-const BEST_TIME_KEY = 'BEST_TIME';
-
-type Options = {
+export type GameOptions = {
   movement: {
     type: MovementType;
     speed: number;
     rotationSpeed: number;
     friction: number;
   };
-};
-
-export const defaultOptions: Options = {
-  movement: {
-    type: 'rotation',
-    speed: SPEED,
-    rotationSpeed: ROTATION_SPEED,
-    friction: FRICTION,
-  },
+  asteroids: {
+    numberPerWave: number;
+  };
 };
 
 class Game {
@@ -36,8 +23,9 @@ class Game {
   asteroids!: Asteroid[];
   stopwatch!: Stopwatch;
   bestTimeStore!: Store;
+  asteroidsPerWave: number;
 
-  constructor(options: Options) {
+  constructor(options: GameOptions) {
     this.setRestartButtonIsDisabled(true);
 
     this.canvas = document.querySelector('canvas')!;
@@ -58,6 +46,8 @@ class Game {
         ? new LinearMovement({ player: this.player, ...options.movement })
         : new RotationMovement({ player: this.player, ...options.movement });
     this.movement.listenForInputs();
+
+    this.asteroidsPerWave = options.asteroids.numberPerWave;
   }
 
   render = () => {
@@ -102,7 +92,10 @@ class Game {
         bounds: this.bounds,
       });
 
-    this.asteroids = Array.from({ length: ASTEROIDS_PER_WAVE }, createAsteroid);
+    this.asteroids = Array.from(
+      { length: this.asteroidsPerWave },
+      createAsteroid,
+    );
   }
 
   private createStopwatch() {
@@ -110,7 +103,7 @@ class Game {
   }
 
   private createBestTimeStore() {
-    this.bestTimeStore = new Store(BEST_TIME_KEY);
+    this.bestTimeStore = new Store('BEST_TIME');
   }
 
   private get bounds() {

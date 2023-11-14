@@ -1,7 +1,8 @@
-import Game, { defaultOptions } from '@/game';
+import Game from '@/game';
+import { defaultGameOptions } from '@/shared/models/game';
 
 const startGame = () => {
-  const options = defaultOptions;
+  const options = defaultGameOptions;
   const game = new Game(options);
   game.start();
 };
