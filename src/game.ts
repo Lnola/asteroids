@@ -38,6 +38,7 @@ class Game {
   private asteroids!: Asteroid[];
   private stopwatch!: Stopwatch;
   private bestTimeStore!: Store;
+  private wasWaveSpawned: boolean = true;
 
   constructor(options: GameOptions = defaultGameOptions) {
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, true);
@@ -97,12 +98,18 @@ class Game {
       return asteroid.hasExitedBounds();
     });
 
-    if (!this.asteroids.length)
-      this.asteroids = GameInitializationHelpers.createAsteroids(
-        this.context,
-        this.bounds,
-        this.options,
-      );
+    const seconds = Math.round(this.stopwatch.elapsedTime.seconds);
+    if (seconds % 5 === 0) {
+      if (!this.wasWaveSpawned) {
+        const newAsteroids = GameInitializationHelpers.createAsteroids(
+          this.context,
+          this.bounds,
+          this.options,
+        );
+        this.asteroids = [...this.asteroids, ...newAsteroids];
+        this.wasWaveSpawned = true;
+      }
+    } else this.wasWaveSpawned = false;
 
     this.movement.adjustVelocity();
     this.movement.adjustRotation();
