@@ -1,4 +1,4 @@
-import { Vector } from '@/game';
+import { Vector } from '@/shared/helpers/vector';
 
 export type IGameObject = {
   context: CanvasRenderingContext2D;

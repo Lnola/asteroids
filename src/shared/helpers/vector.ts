@@ -1,5 +1,6 @@
-import { Vector } from '@/game';
 import { Bounds } from '@/objects/asteroid';
+
+export type Vector = { x: number; y: number };
 
 class VectorHelpers {
   static getRandomVectorOnRectangleSide({

@@ -11,8 +11,6 @@ const ASTEROIDS_PER_WAVE = 5;
 
 const BEST_TIME_KEY = 'BEST_TIME';
 
-export type Vector = { x: number; y: number };
-
 type MovementType = 'linear' | 'rotation';
 
 type Options = {
