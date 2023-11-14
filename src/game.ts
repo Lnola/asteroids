@@ -1,6 +1,12 @@
-import Movement, { LinearMovement, RotationMovement } from '@/movement';
+import Movement from '@/movement';
 import { Player, Asteroid } from '@/objects';
-import { BestTimeHelper, DomHelpers, Stopwatch, Store } from '@/shared/helpers';
+import {
+  BestTimeHelper,
+  DomHelpers,
+  GameInitializationHelpers,
+  Stopwatch,
+  Store,
+} from '@/shared/helpers';
 import { defaultGameOptions } from '@/shared/models/game';
 import { MovementType } from '@/shared/models/movement';
 import { RESTART_BUTTON_ID } from '@/shared/models/dom';
@@ -41,9 +47,19 @@ class Game {
 
     this.options = options;
 
-    this.createPlayer();
-    this.createMovement();
-    this.createAsteroids();
+    this.player = GameInitializationHelpers.createPlayer(
+      this.canvas,
+      this.context,
+    );
+    this.movement = GameInitializationHelpers.createMovement(
+      this.options,
+      this.player,
+    );
+    this.asteroids = GameInitializationHelpers.createAsteroids(
+      this.context,
+      this.bounds,
+      this.options,
+    );
 
     this.stopwatch = new Stopwatch();
     this.bestTimeStore = new Store('BEST_TIME');
@@ -79,34 +95,15 @@ class Game {
       return asteroid.shouldRemove();
     });
 
-    if (!this.asteroids.length) this.createAsteroids();
+    if (!this.asteroids.length)
+      this.asteroids = GameInitializationHelpers.createAsteroids(
+        this.context,
+        this.bounds,
+        this.options,
+      );
 
     this.movement.adjustVelocity();
     this.movement.adjustRotation();
-  }
-
-  private createPlayer() {
-    const position = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
-    const velocity = { x: 0, y: 0 };
-    this.player = new Player({ position, velocity, context: this.context });
-  }
-
-  private createMovement() {
-    const movementOptions = this.options.movement;
-    this.movement =
-      movementOptions.type === MovementType.LINEAR
-        ? new LinearMovement({ player: this.player, ...movementOptions })
-        : new RotationMovement({ player: this.player, ...movementOptions });
-  }
-
-  private createAsteroids() {
-    const createAsteroid = () => {
-      const { context, bounds } = this;
-      return new Asteroid({ context, bounds });
-    };
-
-    const { numberPerWave } = this.options.asteroids;
-    this.asteroids = Array.from({ length: numberPerWave }, createAsteroid);
   }
 
   private get bounds() {
