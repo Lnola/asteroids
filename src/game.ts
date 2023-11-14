@@ -28,7 +28,7 @@ class Game {
   asteroidsPerWave: number;
 
   constructor(options: GameOptions = defaultGameOptions) {
-    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
+    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, true);
 
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
