@@ -37,20 +37,6 @@ class Asteroid {
     this.position.y += this.velocity.y;
   }
 
-  shouldRemove() {
-    if (!this.isOutOfBounds && !this.wasInBounds) this.wasInBounds = true;
-    return !this.isOutOfBounds || !this.wasInBounds;
-  }
-
-  private get isOutOfBounds() {
-    return !(
-      this.position.x > this.bounds.minX &&
-      this.position.x < this.bounds.maxX &&
-      this.position.y > this.bounds.minY &&
-      this.position.y < this.bounds.maxY
-    );
-  }
-
   private render() {
     this.context.save();
 
@@ -80,6 +66,20 @@ class Asteroid {
     const yOverlap =
       Math.abs(this.position.y - player.position.y) <= halfSizeSum;
     return xOverlap && yOverlap;
+  }
+
+  shouldRemove() {
+    if (!this.isOutOfBounds && !this.wasInBounds) this.wasInBounds = true;
+    return !this.isOutOfBounds || !this.wasInBounds;
+  }
+
+  private get isOutOfBounds() {
+    return !(
+      this.position.x > this.bounds.minX &&
+      this.position.x < this.bounds.maxX &&
+      this.position.y > this.bounds.minY &&
+      this.position.y < this.bounds.maxY
+    );
   }
 }
 
