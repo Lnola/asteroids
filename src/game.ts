@@ -81,14 +81,14 @@ class Game {
     this.stopwatch.start();
   }
 
-  private render = () => {
+  private wipe = () => {
     this.context.fillStyle = 'black';
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
   private animate(self: typeof this) {
     const animationId = window.requestAnimationFrame(() => self.animate(this));
-    this.render();
+    this.wipe();
 
     this.player.move(this.canvas);
     this.asteroids = this.asteroids.filter((asteroid) => {
