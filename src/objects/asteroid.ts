@@ -1,9 +1,6 @@
+import VectorHelpers from '@/shared/helpers/vector';
 import GameObject, { IGameObject } from './game-object';
 import Player from './player';
-import {
-  getRandomVectorOnRectangleSide,
-  getVelocityToRandomVector,
-} from '@/shared/helpers/asteroid';
 
 export type Bounds = {
   maxX: number;
@@ -33,8 +30,12 @@ class Asteroid extends GameObject implements IAsteroid {
       size: ASTEROID_SIZE,
       color: 'grey',
     });
-    this.position = getRandomVectorOnRectangleSide(bounds);
-    this.velocity = getVelocityToRandomVector(this.position, bounds, 60);
+    this.position = VectorHelpers.getRandomVectorOnRectangleSide(bounds);
+    this.velocity = VectorHelpers.getVelocityToRandomVector(
+      this.position,
+      bounds,
+      60,
+    );
     this.bounds = bounds;
     this.wasInBounds = false;
   }
