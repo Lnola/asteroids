@@ -6,15 +6,44 @@ canvas {
   background-color: #000;
 }
 
-.statistics {
+#statistics,
+#restart {
   position: absolute;
   top: 0;
-  left: 0;
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
   color: #fff;
   font-size: 1.125rem;
   font-family: monospace;
   text-transform: uppercase;
+}
+
+#statistics {
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#restart {
+  right: 0;
+  margin: 1rem;
+  border: 1px solid #fff;
+  background-color: transparent;
+}
+
+#restart:not(:disabled):hover {
+  animation: flash 0.5s ease-in-out infinite alternate;
+  cursor: pointer;
+}
+
+#restart:disabled {
+  opacity: 0.5;
+}
+
+@keyframes flash {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.7;
+  }
 }
