@@ -1,15 +1,9 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import { Player, Asteroid } from '@/objects';
-import {
-  BestTimeHelper,
-  DomHelpers,
-  Stopwatch,
-  Store,
-  Time,
-} from '@/shared/helpers';
+import { BestTimeHelper, DomHelpers, Stopwatch, Store } from '@/shared/helpers';
 import { defaultGameOptions } from '@/shared/models/game';
 import { MovementType } from '@/shared/models/movement';
-import { BEST_TIME_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
+import { RESTART_BUTTON_ID } from '@/shared/models/dom';
 
 type GameMovementOptions = {
   type: MovementType;
@@ -54,7 +48,7 @@ class Game {
     this.stopwatch = new Stopwatch();
     this.bestTimeStore = new Store('BEST_TIME');
 
-    this.setBestTimeLabel();
+    BestTimeHelper.setBestTimeLabel(this.bestTimeStore);
   }
 
   start() {
@@ -113,15 +107,6 @@ class Game {
 
     const { numberPerWave } = this.options.asteroids;
     this.asteroids = Array.from({ length: numberPerWave }, createAsteroid);
-  }
-
-  private setBestTimeLabel() {
-    const bestTime = new Time(
-      this.bestTimeStore.value?.minutes ?? 0,
-      this.bestTimeStore.value?.seconds ?? 0,
-    );
-    const displayBestTime = `Best time: ${bestTime.toString()}`;
-    DomHelpers.setElementInnerHtml(BEST_TIME_ID, displayBestTime);
   }
 
   private get bounds() {
