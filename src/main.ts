@@ -1,6 +1,7 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import Player from '@/objects/player';
 import Asteroid from '@/objects/asteroid';
+import Stopwatch from '@/helpers/stopwatch';
 
 const SPEED = 3;
 const ROTATION_SPEED = 0.05;
@@ -35,6 +36,7 @@ class Game {
   player!: Player;
   movement: Movement;
   asteroids!: Asteroid[];
+  stopwatch!: Stopwatch;
 
   constructor(options: Options) {
     this.canvas = document.querySelector('canvas')!;
@@ -43,6 +45,7 @@ class Game {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
+    this.createStopwatch();
     this.createPlayer();
     this.createAsteroids();
 
@@ -60,6 +63,7 @@ class Game {
 
   start() {
     this.animate(this);
+    this.stopwatch.start();
   }
 
   animate(self: typeof this) {
@@ -95,6 +99,10 @@ class Game {
       });
 
     this.asteroids = Array.from({ length: ASTEROIDS_PER_WAVE }, createAsteroid);
+  }
+
+  private createStopwatch() {
+    this.stopwatch = new Stopwatch();
   }
 
   private get bounds() {
