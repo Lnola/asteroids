@@ -1,12 +1,6 @@
 import GameObject, { IGameObject } from './game-object';
 import { VectorHelpers } from '@/shared/helpers';
-
-export type Bounds = {
-  maxX: number;
-  minX: number;
-  maxY: number;
-  minY: number;
-};
+import { Bounds } from '@/shared/models/bounds';
 
 const ASTEROID_SIZE = 50;
 

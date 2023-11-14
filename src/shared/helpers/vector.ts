@@ -1,4 +1,4 @@
-import { Bounds } from '@/objects/asteroid';
+import { Bounds } from '@/shared/models/bounds';
 
 export type Vector = { x: number; y: number };
 
