@@ -5,51 +5,102 @@ import { defaultGameOptions } from '@/shared/models/game';
 import { MovementType } from '@/shared/models/movement';
 import { BEST_TIME_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
 
-export type GameOptions = {
-  movement: {
-    type: MovementType;
-    speed: number;
-    rotationSpeed: number;
-    friction: number;
-  };
-  asteroids: {
-    numberPerWave: number;
-  };
-};
-
-class Game {
+type IGame = {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
-  player!: Player;
+  player: Player;
+  asteroids: Asteroid[];
   movement: Movement;
+  stopwatch: Stopwatch;
+  bestTimeStore: Store;
+  asteroidsPerWave: number;
+};
+
+type GameMovementOptions = {
+  type: MovementType;
+  speed: number;
+  rotationSpeed: number;
+  friction: number;
+};
+
+type GameAsteroidsOptions = {
+  numberPerWave: number;
+};
+
+export type GameOptions = {
+  movement: GameMovementOptions;
+  asteroids: GameAsteroidsOptions;
+};
+
+class Game implements IGame {
+  canvas!: HTMLCanvasElement;
+  context!: CanvasRenderingContext2D;
+  player!: Player;
+  movement!: Movement;
   asteroids!: Asteroid[];
   stopwatch!: Stopwatch;
   bestTimeStore!: Store;
-  asteroidsPerWave: number;
+  asteroidsPerWave!: number;
 
   constructor(options: GameOptions = defaultGameOptions) {
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, true);
 
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
-
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
-    this.createStopwatch();
     this.createPlayer();
+    this.createMovement(options.movement);
     this.createAsteroids();
+    this.createStopwatch();
     this.createBestTimeStore();
-
     this.setBestTimeLabel();
-
-    this.movement =
-      options.movement.type === 'linear'
-        ? new LinearMovement({ player: this.player, ...options.movement })
-        : new RotationMovement({ player: this.player, ...options.movement });
-    this.movement.listenForInputs();
-
+    // TODO: move options instead of this
     this.asteroidsPerWave = options.asteroids.numberPerWave;
+  }
+
+  private createPlayer() {
+    const position = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+    const velocity = { x: 0, y: 0 };
+    this.player = new Player({ position, velocity, context: this.context });
+  }
+
+  private createMovement(options: GameMovementOptions) {
+    this.movement =
+      options.type === MovementType.LINEAR
+        ? new LinearMovement({ player: this.player, ...options })
+        : new RotationMovement({ player: this.player, ...options });
+  }
+
+  private createAsteroids() {
+    const createAsteroid = () =>
+      new Asteroid({
+        context: this.context,
+        bounds: this.bounds,
+      });
+
+    this.asteroids = Array.from(
+      { length: this.asteroidsPerWave },
+      createAsteroid,
+    );
+  }
+
+  private createStopwatch() {
+    this.stopwatch = new Stopwatch();
+  }
+
+  private createBestTimeStore() {
+    this.bestTimeStore = new Store('BEST_TIME');
+  }
+
+  private setBestTimeLabel() {
+    const bestTime = new Time(
+      this.bestTimeStore.value?.minutes ?? 0,
+      this.bestTimeStore.value?.seconds ?? 0,
+    );
+    const displayBestTime = `Best time: ${bestTime.toString()}`;
+    DomHelpers.setElementInnerHtml(BEST_TIME_ID, displayBestTime);
   }
 
   render = () => {
@@ -79,35 +130,6 @@ class Game {
     this.movement.adjustRotation();
   }
 
-  private createPlayer() {
-    this.player = new Player({
-      position: { x: this.canvas.width / 2, y: this.canvas.height / 2 },
-      velocity: { x: 0, y: 0 },
-      context: this.context,
-    });
-  }
-
-  private createAsteroids() {
-    const createAsteroid = () =>
-      new Asteroid({
-        context: this.context,
-        bounds: this.bounds,
-      });
-
-    this.asteroids = Array.from(
-      { length: this.asteroidsPerWave },
-      createAsteroid,
-    );
-  }
-
-  private createStopwatch() {
-    this.stopwatch = new Stopwatch();
-  }
-
-  private createBestTimeStore() {
-    this.bestTimeStore = new Store('BEST_TIME');
-  }
-
   private get bounds() {
     return {
       maxX: this.canvas.width,
@@ -122,15 +144,6 @@ class Game {
     const currentTime = this.stopwatch.elapsedTime;
     if (bestTime && currentTime.isGreaterThan(bestTime)) return;
     this.bestTimeStore.setValue(this.stopwatch.elapsedTime);
-  }
-
-  private setBestTimeLabel() {
-    const bestTime = new Time(
-      this.bestTimeStore.value?.minutes ?? 0,
-      this.bestTimeStore.value?.seconds ?? 0,
-    );
-    const displayBestTime = `Best time: ${bestTime.toString()}`;
-    DomHelpers.setElementInnerHtml(BEST_TIME_ID, displayBestTime);
   }
 
   stop(animationId: number) {
