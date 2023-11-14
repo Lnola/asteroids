@@ -1,4 +1,5 @@
 import Game from '@/game';
+import { DomHelpers } from '@/shared/helpers';
 import { defaultGameOptions } from '@/shared/models/game';
 
 const startGame = () => {
@@ -9,5 +10,4 @@ const startGame = () => {
 
 startGame();
 
-const button = document.getElementById('restart') as HTMLButtonElement;
-button.onclick = startGame;
+DomHelpers.assignButtonClickMethod('restart', startGame);
