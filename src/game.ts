@@ -2,7 +2,7 @@ import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import { Player, Asteroid } from '@/objects';
 import { DomHelpers, Stopwatch, Store, Time } from '@/shared/helpers';
 import { MovementType } from '@/shared/models/movement';
-import { RESTART_BUTTON_ID } from '@/shared/models/dom';
+import { BEST_TIME_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
 
 export type GameOptions = {
   movement: {
@@ -127,7 +127,7 @@ class Game {
       this.bestTimeStore.value?.seconds ?? 0,
     );
     const displayBestTime = `Best time: ${bestTime.toString()}`;
-    document.getElementById('best')!.innerHTML = displayBestTime;
+    DomHelpers.setElementInnerHtml(BEST_TIME_ID, displayBestTime);
   }
 
   stop(animationId: number) {
