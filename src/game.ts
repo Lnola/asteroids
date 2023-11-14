@@ -1,7 +1,8 @@
 import Movement, { LinearMovement, RotationMovement } from '@/movement';
 import { Player, Asteroid } from '@/objects';
-import { Stopwatch, Store, Time } from '@/shared/helpers';
+import { DomHelpers, Stopwatch, Store, Time } from '@/shared/helpers';
 import { MovementType } from '@/shared/models/movement';
+import { RESTART_BUTTON_ID } from '@/shared/models/dom';
 
 export type GameOptions = {
   movement: {
@@ -26,7 +27,7 @@ class Game {
   asteroidsPerWave: number;
 
   constructor(options: GameOptions) {
-    this.setRestartButtonIsDisabled(true);
+    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
 
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
@@ -133,12 +134,7 @@ class Game {
     window.cancelAnimationFrame(animationId);
     this.stopwatch.stop();
     this.updateBestTime();
-    this.setRestartButtonIsDisabled(false);
-  }
-
-  private setRestartButtonIsDisabled(isDisabled: boolean) {
-    const button = document.getElementById('restart') as HTMLButtonElement;
-    button.disabled = isDisabled;
+    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
   }
 }
 
