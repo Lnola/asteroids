@@ -50,14 +50,14 @@ abstract class GameObject implements IGameObject {
     this.context.restore();
   }
 
-  private drawRectangle() {
+  drawRectangle() {
     this.context.fillStyle = this.color;
     const positionX = this.position.x - this.size / 2;
     const positionY = this.position.y - this.size / 2;
     this.context.fillRect(positionX, positionY, this.size, this.size);
   }
 
-  private drawTriangle() {}
+  drawTriangle() {}
 }
 
 export default GameObject;
