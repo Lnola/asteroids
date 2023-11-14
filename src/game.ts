@@ -5,17 +5,6 @@ import { defaultGameOptions } from '@/shared/models/game';
 import { MovementType } from '@/shared/models/movement';
 import { BEST_TIME_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
 
-type IGame = {
-  canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D;
-  options: GameOptions;
-  player: Player;
-  asteroids: Asteroid[];
-  movement: Movement;
-  stopwatch: Stopwatch;
-  bestTimeStore: Store;
-};
-
 type GameMovementOptions = {
   type: MovementType;
   speed: number;
@@ -32,15 +21,15 @@ export type GameOptions = {
   asteroids: GameAsteroidsOptions;
 };
 
-class Game implements IGame {
-  canvas!: HTMLCanvasElement;
-  context!: CanvasRenderingContext2D;
-  options!: GameOptions;
-  player!: Player;
-  movement!: Movement;
-  asteroids!: Asteroid[];
-  stopwatch!: Stopwatch;
-  bestTimeStore!: Store;
+class Game {
+  private canvas: HTMLCanvasElement;
+  private context!: CanvasRenderingContext2D;
+  private options!: GameOptions;
+  private player!: Player;
+  private movement!: Movement;
+  private asteroids!: Asteroid[];
+  private stopwatch!: Stopwatch;
+  private bestTimeStore!: Store;
 
   constructor(options: GameOptions = defaultGameOptions) {
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, true);
@@ -95,7 +84,7 @@ class Game implements IGame {
     DomHelpers.setElementInnerHtml(BEST_TIME_ID, displayBestTime);
   }
 
-  render = () => {
+  private render = () => {
     this.context.fillStyle = 'black';
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   };
@@ -105,7 +94,7 @@ class Game implements IGame {
     this.stopwatch.start();
   }
 
-  animate(self: typeof this) {
+  private animate(self: typeof this) {
     const animationId = window.requestAnimationFrame(() => self.animate(this));
     this.render();
 
