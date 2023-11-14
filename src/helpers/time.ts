@@ -2,9 +2,9 @@ class Time {
   minutes!: number;
   seconds!: number;
 
-  constructor() {
-    this.minutes = 0;
-    this.seconds = 0;
+  constructor(minutes = 0, seconds = 0) {
+    this.minutes = minutes;
+    this.seconds = seconds;
   }
 
   toString() {
