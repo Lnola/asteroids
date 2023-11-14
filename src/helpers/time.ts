@@ -13,7 +13,7 @@ class Time {
 
   setTime(milliseconds: number) {
     this.minutes = Math.floor(milliseconds / 1000 / 60) % 60;
-    this.seconds = milliseconds / 1000;
+    this.seconds = +((milliseconds / 1000) % 60).toFixed(3);
   }
 
   private pad(value: number) {
