@@ -87,13 +87,13 @@ class Game {
   };
 
   private animate() {
-    const animationId = window.requestAnimationFrame(this.animate.bind(this));
+    const frameId = window.requestAnimationFrame(this.animate.bind(this));
     this.wipe();
 
     this.player.move(this.canvas);
     this.asteroids = this.asteroids.filter((asteroid) => {
       asteroid.move();
-      if (asteroid.detectCollision(this.player)) this.stop(animationId);
+      if (asteroid.detectCollision(this.player)) this.stop(frameId);
       return asteroid.shouldRemove();
     });
 
