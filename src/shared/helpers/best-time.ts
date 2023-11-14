@@ -3,9 +3,12 @@ import { BEST_TIME_ID } from '@/shared/models/dom';
 
 class BestTimeHelpers {
   static updateBestTime(bestTimeStore: Store, stopwatch: Stopwatch) {
-    const bestTime = bestTimeStore.value;
+    const bestTime = new Time(
+      bestTimeStore.value.minutes,
+      bestTimeStore.value.seconds,
+    );
     const currentTime = stopwatch.elapsedTime;
-    if (bestTime && currentTime.isGreaterThan(bestTime)) return;
+    if (!(bestTime && currentTime.isGreaterThan(bestTime))) return;
     bestTimeStore.setValue(stopwatch.elapsedTime);
   }
 
