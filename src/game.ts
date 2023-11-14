@@ -55,8 +55,10 @@ class Game implements IGame {
     this.createPlayer();
     this.createMovement();
     this.createAsteroids();
-    this.createStopwatch();
-    this.createBestTimeStore();
+
+    this.stopwatch = new Stopwatch();
+    this.bestTimeStore = new Store('BEST_TIME');
+
     this.setBestTimeLabel();
   }
 
@@ -82,14 +84,6 @@ class Game implements IGame {
 
     const { numberPerWave } = this.options.asteroids;
     this.asteroids = Array.from({ length: numberPerWave }, createAsteroid);
-  }
-
-  private createStopwatch() {
-    this.stopwatch = new Stopwatch();
-  }
-
-  private createBestTimeStore() {
-    this.bestTimeStore = new Store('BEST_TIME');
   }
 
   private setBestTimeLabel() {
