@@ -117,7 +117,9 @@ class Game {
   }
 
   private updateBestTime() {
-    if (this.stopwatch.elapsedTime < this.bestTimeStore.value) return;
+    const bestTime = this.bestTimeStore.value;
+    const currentTime = this.stopwatch.elapsedTime;
+    if (bestTime && currentTime.isGreaterThan(bestTime)) return;
     this.bestTimeStore.setValue(this.stopwatch.elapsedTime);
   }
 
