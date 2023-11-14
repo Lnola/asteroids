@@ -1,4 +1,4 @@
-import { Vector } from '@/main';
+import { Vector } from '@/game';
 import {
   getRandomVectorOnRectangleSide,
   getVelocityToRandomVector,
