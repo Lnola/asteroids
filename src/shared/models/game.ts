@@ -10,5 +10,6 @@ export const defaultGameOptions: GameOptions = {
   },
   asteroids: {
     numberPerWave: 5,
+    secondsBetweenWaves: 5,
   },
 };

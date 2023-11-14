@@ -21,6 +21,7 @@ type GameMovementOptions = {
 
 type GameAsteroidsOptions = {
   numberPerWave: number;
+  secondsBetweenWaves: number;
 };
 
 export type GameOptions = {
@@ -99,7 +100,7 @@ class Game {
     });
 
     const seconds = Math.round(this.stopwatch.elapsedTime.seconds);
-    if (seconds % 5 === 0) {
+    if (seconds % this.options.asteroids.secondsBetweenWaves === 0) {
       if (!this.wasWaveSpawned) {
         const newAsteroids = GameInitializationHelpers.createAsteroids(
           this.context,
