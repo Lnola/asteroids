@@ -1,4 +1,5 @@
-import Time from './time';
+import { Time, DomHelpers } from './';
+import { STOPWATCH_ID } from '@/shared/models/dom';
 
 class Stopwatch {
   startTime!: number;
@@ -31,7 +32,7 @@ class Stopwatch {
   private update() {
     const elapsedMiliseconds = this.now - this.startTime;
     this.elapsedTime.setTime(elapsedMiliseconds);
-    document.getElementById('stopwatch')!.innerHTML = this.displayTime;
+    DomHelpers.setElementInnerHtml(STOPWATCH_ID, this.displayTime);
   }
 }
 
