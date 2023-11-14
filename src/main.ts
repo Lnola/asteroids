@@ -44,6 +44,8 @@ class Game {
   bestTimeStore!: Store;
 
   constructor(options: Options) {
+    this.setRestartButtonIsDisabled(true);
+
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
 
@@ -144,6 +146,12 @@ class Game {
     window.cancelAnimationFrame(animationId);
     this.stopwatch.stop();
     this.updateBestTime();
+    this.setRestartButtonIsDisabled(false);
+  }
+
+  private setRestartButtonIsDisabled(isDisabled: boolean) {
+    const button = document.getElementById('restart') as HTMLButtonElement;
+    button.disabled = isDisabled;
   }
 }
 
