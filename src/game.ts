@@ -8,12 +8,12 @@ import { BEST_TIME_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
 type IGame = {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
+  options: GameOptions;
   player: Player;
   asteroids: Asteroid[];
   movement: Movement;
   stopwatch: Stopwatch;
   bestTimeStore: Store;
-  asteroidsPerWave: number;
 };
 
 type GameMovementOptions = {
@@ -35,12 +35,12 @@ export type GameOptions = {
 class Game implements IGame {
   canvas!: HTMLCanvasElement;
   context!: CanvasRenderingContext2D;
+  options!: GameOptions;
   player!: Player;
   movement!: Movement;
   asteroids!: Asteroid[];
   stopwatch!: Stopwatch;
   bestTimeStore!: Store;
-  asteroidsPerWave!: number;
 
   constructor(options: GameOptions = defaultGameOptions) {
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, true);
@@ -50,14 +50,14 @@ class Game implements IGame {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
+    this.options = options;
+
     this.createPlayer();
-    this.createMovement(options.movement);
+    this.createMovement();
     this.createAsteroids();
     this.createStopwatch();
     this.createBestTimeStore();
     this.setBestTimeLabel();
-    // TODO: move options instead of this
-    this.asteroidsPerWave = options.asteroids.numberPerWave;
   }
 
   private createPlayer() {
@@ -66,24 +66,22 @@ class Game implements IGame {
     this.player = new Player({ position, velocity, context: this.context });
   }
 
-  private createMovement(options: GameMovementOptions) {
+  private createMovement() {
+    const movementOptions = this.options.movement;
     this.movement =
-      options.type === MovementType.LINEAR
-        ? new LinearMovement({ player: this.player, ...options })
-        : new RotationMovement({ player: this.player, ...options });
+      movementOptions.type === MovementType.LINEAR
+        ? new LinearMovement({ player: this.player, ...movementOptions })
+        : new RotationMovement({ player: this.player, ...movementOptions });
   }
 
   private createAsteroids() {
-    const createAsteroid = () =>
-      new Asteroid({
-        context: this.context,
-        bounds: this.bounds,
-      });
+    const createAsteroid = () => {
+      const { context, bounds } = this;
+      return new Asteroid({ context, bounds });
+    };
 
-    this.asteroids = Array.from(
-      { length: this.asteroidsPerWave },
-      createAsteroid,
-    );
+    const { numberPerWave } = this.options.asteroids;
+    this.asteroids = Array.from({ length: numberPerWave }, createAsteroid);
   }
 
   private createStopwatch() {
