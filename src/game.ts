@@ -8,7 +8,7 @@ import {
   Store,
 } from '@/shared/helpers';
 import { defaultGameOptions } from '@/shared/models/game';
-import { RESTART_BUTTON_ID } from '@/shared/models/dom';
+import { MOVEMENT_TYPE_ID, RESTART_BUTTON_ID } from '@/shared/models/dom';
 import { Bounds } from '@/shared/models/bounds';
 
 type GameMovementOptions = {
@@ -41,6 +41,7 @@ class Game {
 
   constructor(options: GameOptions = defaultGameOptions) {
     DomHelpers.setElementIsDisabled(RESTART_BUTTON_ID, true);
+    DomHelpers.setElementIsDisabled(MOVEMENT_TYPE_ID, true);
 
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
@@ -120,6 +121,7 @@ class Game {
     new Audio('../audio/boom.mp3').play();
     BestTimeHelpers.updateBestTime(this.bestTimeStore, this.stopwatch);
     DomHelpers.setElementIsDisabled(RESTART_BUTTON_ID, false);
+    DomHelpers.setElementIsDisabled(MOVEMENT_TYPE_ID, false);
   }
 }
 
