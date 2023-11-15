@@ -1,5 +1,6 @@
 import { Player } from '@/objects';
 
+// Define type for MovementOptions to structure movement-related properties
 export type MovementOptions = {
   player: Player;
   speed: number;
@@ -7,12 +8,13 @@ export type MovementOptions = {
   friction: number;
 };
 
+// Abstract class Movement to be extended by specific movement implementations
 abstract class Movement {
-  player: Player;
-  speed: number;
-  rotationSpeed: number;
-  friction: number;
-  isPressed = { forward: false, backward: false, left: false, right: false };
+  player: Player; // The player object to which this movement will be applied
+  speed: number; // Speed at which the player moves
+  rotationSpeed: number; // Rate at which the player rotates
+  friction: number; // Friction coefficient affecting the movement, used to slow down the player after key-release
+  isPressed = { forward: false, backward: false, left: false, right: false }; // State of key presses
 
   constructor({ player, speed, rotationSpeed, friction }: MovementOptions) {
     this.player = player;
@@ -20,12 +22,15 @@ abstract class Movement {
     this.rotationSpeed = rotationSpeed;
     this.friction = friction;
 
+    // Initialize listening for keyboard inputs
     this.listenForInputs();
   }
 
+  // Methods to be implemented by subclasses for adjusting velocity and rotation
   adjustVelocity() {}
   adjustRotation() {}
 
+  // Sets up key event listeners to handle user input
   private listenForInputs() {
     window.addEventListener('keyup', (event) =>
       this.handleKeyEvent(event, false),
@@ -35,6 +40,7 @@ abstract class Movement {
     );
   }
 
+  // Handles key events to update movement state based on user input
   private handleKeyEvent = (event: KeyboardEvent, isPressed: boolean) => {
     const KeySetters = {
       KeyW: (value: boolean) => (this.isPressed.forward = value),
@@ -48,6 +54,7 @@ abstract class Movement {
     };
     type KeyCode = keyof typeof KeySetters;
 
+    // Apply the key press state change if the key code matches the defined keys
     const setKeyValue =
       KeySetters[event.code as KeyCode] || ((_: boolean) => {});
     setKeyValue(isPressed);

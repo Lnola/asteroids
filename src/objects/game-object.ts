@@ -14,13 +14,14 @@ type GameObjectOptions = Pick<
   'context' | 'position' | 'velocity' | 'size' | 'color'
 >;
 
+// Abstract class representing a generic object in the game.
 abstract class GameObject implements IGameObject {
-  context: CanvasRenderingContext2D;
-  position: Vector;
-  velocity: Vector;
-  rotation: number;
-  size: number;
-  color: string;
+  context: CanvasRenderingContext2D; // The canvas rendering context
+  position: Vector; // The object's position in the game world
+  velocity: Vector; // The object's velocity
+  rotation: number; // The object's rotation angle
+  size: number; // The object's size
+  color: string; // The object's color
 
   constructor({ context, position, velocity, size, color }: GameObjectOptions) {
     this.context = context;
@@ -31,25 +32,30 @@ abstract class GameObject implements IGameObject {
     this.rotation = 0;
   }
 
+  // Updates the game object's position based on its velocity and renders it.
   move(_?: unknown) {
     this.render();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
   }
 
+  // Renders the game object to the canvas.
   private render() {
     this.context.save();
 
+    // Apply transformations for rotation
     this.context.translate(this.position.x, this.position.y);
     this.context.rotate(this.rotation);
     this.context.translate(-this.position.x, -this.position.y);
 
+    // Draw the object
     this.drawRectangle();
     this.drawTriangle();
 
     this.context.restore();
   }
 
+  // Draws a rectangle representing the game object.
   drawRectangle() {
     this.context.fillStyle = this.color;
     this.context.shadowColor = '#ffffff80';
@@ -60,6 +66,7 @@ abstract class GameObject implements IGameObject {
     this.context.fillRect(positionX, positionY, this.size, this.size);
   }
 
+  // Draws a triangle representing the decoration of the game object.
   drawTriangle() {}
 }
 

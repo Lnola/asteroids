@@ -7,6 +7,7 @@ import { Bounds } from '@/shared/models/bounds';
 import { MOVEMENT_TYPE_ID } from '@/shared/models/dom';
 
 class GameInitializationHelpers {
+  // Creates a Player instance positioned at the center of the canvas.
   static createPlayer(
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D,
@@ -16,6 +17,7 @@ class GameInitializationHelpers {
     return new Player({ position, velocity, context });
   }
 
+  // Creates a Movement instance based on the game options and in DOM selected movement type.
   static createMovement(options: GameOptions, player: Player) {
     const movementOptions = options.movement;
     const movementType = DomHelpers.getElementValue(MOVEMENT_TYPE_ID);
@@ -24,15 +26,13 @@ class GameInitializationHelpers {
       : new RotationMovement({ player: player, ...movementOptions });
   }
 
+  // Generates a specified number of Asteroid instances.
   static createAsteroids(
     context: CanvasRenderingContext2D,
     bounds: Bounds,
     options: GameOptions,
   ) {
-    const createAsteroid = () => {
-      return new Asteroid({ context, bounds });
-    };
-
+    const createAsteroid = () => new Asteroid({ context, bounds });
     const { numberPerWave } = options.asteroids;
     return Array.from({ length: numberPerWave }, createAsteroid);
   }
