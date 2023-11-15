@@ -42,7 +42,7 @@ class Game {
   private wasWaveSpawned: boolean = true;
 
   constructor(options: GameOptions = defaultGameOptions) {
-    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, true);
+    DomHelpers.setElementIsDisabled(RESTART_BUTTON_ID, true);
 
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
@@ -121,7 +121,7 @@ class Game {
     this.stopwatch.stop();
     new Audio('../audio/boom.mp3').play();
     BestTimeHelpers.updateBestTime(this.bestTimeStore, this.stopwatch);
-    DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
+    DomHelpers.setElementIsDisabled(RESTART_BUTTON_ID, false);
   }
 }
 

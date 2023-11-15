@@ -4,9 +4,9 @@ class DomHelpers {
     button.onclick = method;
   }
 
-  static setButtonIsDisabled(buttonId: string, isDisabled: boolean) {
-    const button = document.getElementById(buttonId) as HTMLButtonElement;
-    button.disabled = isDisabled;
+  static setElementIsDisabled(elementId: string, isDisabled: boolean) {
+    const element = document.getElementById(elementId) as HTMLButtonElement;
+    element.disabled = isDisabled;
   }
 
   static setElementInnerHtml(elementId: string, innerHtml: string) {
