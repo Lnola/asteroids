@@ -119,6 +119,7 @@ class Game {
   stop(animationId: number) {
     window.cancelAnimationFrame(animationId);
     this.stopwatch.stop();
+    new Audio('../public/audio/boom.mp3').play();
     BestTimeHelpers.updateBestTime(this.bestTimeStore, this.stopwatch);
     DomHelpers.setButtonIsDisabled(RESTART_BUTTON_ID, false);
   }
