@@ -23,7 +23,7 @@ class Player extends GameObject implements IPlayer {
   }
 
   drawTriangle() {
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = 'grey';
     this.context.beginPath();
     const rectLeft = this.position.x - this.size / 2;
     const rectRight = this.position.x + this.size / 2;
