@@ -12,6 +12,11 @@ class DomHelpers {
   static setElementInnerHtml(elementId: string, innerHtml: string) {
     document.getElementById(elementId)!.innerHTML = innerHtml;
   }
+
+  static getElementValue(elementId: string) {
+    const element = document.getElementById(elementId) as HTMLSelectElement;
+    return element.value;
+  }
 }
 
 export default DomHelpers;
