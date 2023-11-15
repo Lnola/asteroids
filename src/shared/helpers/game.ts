@@ -1,8 +1,10 @@
 import { GameOptions } from '@/game';
 import { Asteroid, Player } from '@/objects';
 import { LinearMovement, RotationMovement } from '@/movement';
+import { DomHelpers } from '.';
 import { MovementType } from '@/shared/models/movement';
 import { Bounds } from '@/shared/models/bounds';
+import { MOVEMENT_TYPE_ID } from '@/shared/models/dom';
 
 class GameInitializationHelpers {
   static createPlayer(
@@ -16,7 +18,8 @@ class GameInitializationHelpers {
 
   static createMovement(options: GameOptions, player: Player) {
     const movementOptions = options.movement;
-    return movementOptions.type === MovementType.LINEAR
+    const movementType = DomHelpers.getElementValue(MOVEMENT_TYPE_ID);
+    return movementType === MovementType.LINEAR
       ? new LinearMovement({ player: player, ...movementOptions })
       : new RotationMovement({ player: player, ...movementOptions });
   }
