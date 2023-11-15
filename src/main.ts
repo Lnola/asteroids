@@ -1,6 +1,7 @@
 import Game from '@/game';
 import { DomHelpers } from '@/shared/helpers';
 import { defaultGameOptions } from '@/shared/models/game';
+import { RESTART_BUTTON_ID } from '@/shared/models/dom';
 
 const startGame = () => {
   const options = defaultGameOptions;
@@ -10,4 +11,4 @@ const startGame = () => {
 
 startGame();
 
-DomHelpers.assignButtonClickMethod('restart', startGame);
+DomHelpers.assignButtonClickMethod(RESTART_BUTTON_ID, startGame);
