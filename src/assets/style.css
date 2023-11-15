@@ -4,6 +4,10 @@ canvas {
   background-color: #000;
 }
 
+canvas {
+  border: 2px solid grey;
+}
+
 #statistics,
 #controls {
   position: absolute;

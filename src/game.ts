@@ -45,8 +45,8 @@ class Game {
 
     this.canvas = document.querySelector('canvas')!;
     this.context = this.canvas.getContext('2d')!;
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    this.canvas.width = window.innerWidth - 4;
+    this.canvas.height = window.innerHeight - 4;
 
     this.bounds = {
       maxX: this.canvas.width,
