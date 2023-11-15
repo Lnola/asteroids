@@ -52,6 +52,9 @@ abstract class GameObject implements IGameObject {
 
   drawRectangle() {
     this.context.fillStyle = this.color;
+    this.context.shadowColor = '#ffffff80';
+    this.context.shadowBlur = this.size / 2;
+
     const positionX = this.position.x - this.size / 2;
     const positionY = this.position.y - this.size / 2;
     this.context.fillRect(positionX, positionY, this.size, this.size);
