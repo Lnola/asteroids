@@ -8,12 +8,10 @@ import {
   Store,
 } from '@/shared/helpers';
 import { defaultGameOptions } from '@/shared/models/game';
-import { MovementType } from '@/shared/models/movement';
 import { RESTART_BUTTON_ID } from '@/shared/models/dom';
 import { Bounds } from '@/shared/models/bounds';
 
 type GameMovementOptions = {
-  type: MovementType;
   speed: number;
   rotationSpeed: number;
   friction: number;
