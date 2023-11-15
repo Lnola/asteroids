@@ -5,9 +5,15 @@ canvas {
 }
 
 #statistics,
-#restart {
+#controls {
   position: absolute;
   top: 0;
+  display: flex;
+}
+
+#statistics,
+#restart,
+#movement {
   padding: 1rem;
   color: #fff;
   font-size: 1.125rem;
@@ -15,14 +21,17 @@ canvas {
   text-transform: uppercase;
 }
 
+#controls {
+  right: 0;
+}
+
 #statistics {
   left: 0;
-  display: flex;
   flex-direction: column;
 }
 
-#restart {
-  right: 0;
+#restart,
+#movement {
   margin: 1rem;
   border: 1px solid #fff;
   background-color: transparent;
@@ -33,7 +42,8 @@ canvas {
   cursor: pointer;
 }
 
-#restart:disabled {
+#restart:disabled,
+#movement:disabled {
   opacity: 0.5;
 }
 

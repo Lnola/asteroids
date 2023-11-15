@@ -12,7 +12,13 @@
       <span id="best">Best time: 00:00.000</span>
       <span id="stopwatch">Time: 00:00.000</span>
     </span>
-    <button id="restart" disabled>Restart</button>
+    <div id="controls">
+      <select id="movement" disabled>
+        <option value="ROTATION">Rotation</option>
+        <option value="LINEAR">Linear</option>
+      </select>
+      <button id="restart" disabled>Restart</button>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
