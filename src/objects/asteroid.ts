@@ -2,6 +2,11 @@ import GameObject, { IGameObject } from './game-object';
 import { VectorHelpers } from '@/shared/helpers';
 import { Bounds } from '@/shared/models/bounds';
 
+const randomGreyColor = () => {
+  const value = Math.floor(Math.random() * (200 - 140 + 1)) + 140;
+  return `rgb(${value}, ${value}, ${value})`;
+};
+
 const ASTEROID_SIZE = 50;
 
 type IAsteroid = IGameObject & {
@@ -21,7 +26,7 @@ class Asteroid extends GameObject implements IAsteroid {
       position: { x: 0, y: 0 },
       velocity: { x: 0, y: 0 },
       size: ASTEROID_SIZE,
-      color: 'grey',
+      color: randomGreyColor(),
     });
     this.position = VectorHelpers.getRandomVectorOnRectangleSide(bounds);
     this.velocity = VectorHelpers.getVelocityToRandomVector(
